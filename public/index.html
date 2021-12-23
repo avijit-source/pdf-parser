@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" name="fileInput" id="fileInput">
+    <button type="button" id="uploadBtn" style="display: block; margin-top:10px">upload</button>
+    <br>
+    <br>
+    <br>
+    <textarea name="textarea" id="textarea" placeholder="pdf text" rows="10" cols="60"></textarea>
+
+    <script>
+        let input = document.getElementById("fileInput");
+        let btn = document.getElementById("uploadBtn");
+        let resultText = document.getElementById("textarea");
+
+        btn.addEventListener("click",()=>{
+            let formData = new FormData();
+            formData.append("pdfFile",input.files[0])
+            fetch("/extract",{
+                method: "post",
+                body: formData
+            }).then(response=>{
+               return response.text()
+            }).then(extracted=>{
+                resultText.value = extracted
+            })
+        })
+    </script>
+</body>
+</html>
